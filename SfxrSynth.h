@@ -203,7 +203,7 @@ class SfxrSynth
      * If they're not, plays from the cached sound.
      * Won't play if caching asynchronously.
      */
-    public function play(updateCallback:Function = null,volume:Number=1):void
+    void play(double volume = 1)
     {
         //trace("playing : " + this.params.Serialize());
         
@@ -246,7 +246,7 @@ class SfxrSynth
      * @param	mutationAmount	Amount of mutation
      * @param	mutationsNum	The number of mutations to cache before picking from them
      */
-    public function playMutated(mutationAmount:Number = 0.05, mutationsNum:uint = 15, volume:Number = 1):void
+    void playMutated(double mutationAmount = 0.05, unsigned mutationsNum = 15, double volume = 1)
     {
         stop();
         
@@ -292,7 +292,7 @@ class SfxrSynth
     /**
      * Stops the currently playing sound
      */
-    public function stop():void
+    void stop()
     {
         if(_channel)
         {
@@ -312,7 +312,7 @@ class SfxrSynth
      * If there isn't, synthesises new chunch of data, caching it as it goes.
      * @param	e	SampleDataEvent to write data to
      */
-    private function onSampleData(e:SampleDataEvent):void
+    void onSampleData(e:SampleDataEvent)
     {
         
         if (updateCallback!=null)
@@ -417,12 +417,12 @@ class SfxrSynth
     //--------------------------------------------------------------------------
     
     /* whether or not it is cached*/
-    public function Dirty():Boolean
+    bool dirty()
     {
         return _params.paramsDirty || _cachingNormal || !_cachedWave;
     }
     
-    private function Caching():Boolean
+    bool caching()
     {
         return _cachingNormal;
     }
