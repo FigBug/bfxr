@@ -30,10 +30,10 @@ public:
     std::string description;
     int grouping = 0;
     std::string uid;
-    double defaultValue = 0;
-    double minValue = 0;
-    double maxValue = 1;
-    double currentValue = 0;
+    float defaultValue = 0;
+    float minValue = 0;
+    float maxValue = 1;
+    float currentValue = 0;
     
     Param() = default;
 
@@ -41,9 +41,9 @@ public:
            std::string description_,
            int grouping_,
            std::string uid_,
-           double defaultValue_,
-           double minValue_,
-           double maxValue_)
+           float defaultValue_,
+           float minValue_,
+           float maxValue_)
       : name (name_),
         description (description_),
         grouping (grouping_),
@@ -72,17 +72,17 @@ public:
     
     float getDefault (std::string param)
     {
-        return getProperty (param,4);
+        return getProperty (param, 4);
     }
     
     float getMin (std::string param)
     {
-        return getProperty (param,5);
+        return getProperty (param, 5);
     }
     
     float getMax (std::string param)
     {
-        return getProperty (param,6);
+        return getProperty (param, 6);
     }
     
     float getProperty (std::string param, int index)
@@ -106,7 +106,7 @@ public:
     
     float getParam (std::string param)
     {
-        return getProperty (param,7);
+        return getProperty (param, 7);
     }
     
     void setParam (std::string param, float value)
@@ -154,7 +154,7 @@ public:
         {
             if (itr != lockedParams.end())
             {
-                lockedParams.erase(itr);
+                lockedParams.erase (itr);
                 paramsDirty = true;
             }
         }
@@ -457,7 +457,7 @@ public:
     {
         for (auto& p : params)
         {
-            if (! lockedParam(p.uid))
+            if (! lockedParam (p.uid))
             {
                 auto min = getMin (p.uid);
                 auto max = getMax (p.uid);
@@ -649,7 +649,6 @@ public:
         
     };
     
-    std::vector<float> _params; // stores values for all the parameters above
     std::vector<std::string> lockedParams; // stores list of strings, these strings represent parameters that will be locked during randomization/mutation
 
 };

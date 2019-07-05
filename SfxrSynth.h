@@ -57,23 +57,23 @@ public:
         clampTotalLength();
         
         SfxrParams& p = _params;
-        float envelopeLength0 = p.getParam("attackTime") * p.getParam("attackTime") * 100000.0;
-        float envelopeLength1 = p.getParam("sustainTime") * p.getParam("sustainTime") * 100000.0;
-        float envelopeLength2 = p.getParam("decayTime") * p.getParam("decayTime") * 100000.0 + 10;
-        return (envelopeLength0 + envelopeLength1 + envelopeLength2)*2/(44100);
+        float envelopeLength0 = p.getParam ("attackTime") * p.getParam ("attackTime") * 100000.0;
+        float envelopeLength1 = p.getParam ("sustainTime") * p.getParam ("sustainTime") * 100000.0;
+        float envelopeLength2 = p.getParam ("decayTime") * p.getParam ("decayTime") * 100000.0 + 10;
+        return (envelopeLength0 + envelopeLength1 + envelopeLength2) * 2 / (44100);
 
     }
     
     void clampTotalLength()
     {
         SfxrParams& p = _params;
-        float totalTime = p.getParam("attackTime") + p.getParam("sustainTime") + p.getParam("decayTime");
+        float totalTime = p.getParam ("attackTime") + p.getParam ("sustainTime") + p.getParam ("decayTime");
         if (totalTime < MIN_LENGTH)
         {
             float multiplier = MIN_LENGTH / totalTime;
-            p.setParam("attackTime",p.getParam("attackTime") * multiplier);
-            p.setParam("sustainTime",p.getParam("sustainTime") * multiplier);
-            p.setParam("decayTime",p.getParam("decayTime") * multiplier);
+            p.setParam ("attackTime", p.getParam ("attackTime") * multiplier);
+            p.setParam ("sustainTime", p.getParam ("sustainTime") * multiplier);
+            p.setParam ("decayTime", p.getParam ("decayTime") * multiplier);
         }
     }
     
@@ -87,47 +87,47 @@ public:
         // Shorter reference
         SfxrParams& p = _params;
         
-        _period = 100.0 / (p.getParam("startFrequency") * p.getParam("startFrequency") + 0.001);
-        _maxPeriod = 100.0 / (p.getParam("minFrequency") * p.getParam("minFrequency") + 0.001);
+        _period = 100.0 / (p.getParam ("startFrequency") * p.getParam ("startFrequency") + 0.001);
+        _maxPeriod = 100.0 / (p.getParam ("minFrequency") * p.getParam ("minFrequency") + 0.001);
 
-        _slide = 1.0 - p.getParam("slide") * p.getParam("slide") * p.getParam("slide") * 0.01;
-        _deltaSlide = -p.getParam("deltaSlide") * p.getParam("deltaSlide") * p.getParam("deltaSlide") * 0.000001;
+        _slide = 1.0 - p.getParam ("slide") * p.getParam ("slide") * p.getParam ("slide") * 0.01;
+        _deltaSlide = -p.getParam ("deltaSlide") * p.getParam ("deltaSlide") * p.getParam ("deltaSlide") * 0.000001;
         
-        if (int(p.getParam("waveType")) == 0)
+        if (int (p.getParam ("waveType")) == 0)
         {
-            _squareDuty = 0.5 - p.getParam("squareDuty") * 0.5;
-            _dutySweep = -p.getParam("dutySweep") * 0.00005;
+            _squareDuty = 0.5 - p.getParam ("squareDuty") * 0.5;
+            _dutySweep = -p.getParam ("dutySweep") * 0.00005;
         }
         
-        _changePeriod = (((1-p.getParam("changeRepeat"))+0.1)/1.1) * 20000 + 32;
+        _changePeriod = (((1-p.getParam ("changeRepeat")) + 0.1) / 1.1) * 20000 + 32;
         _changePeriodTime = 0;
         
-        if (p.getParam("changeAmount") > 0.0)
-            _changeAmount = 1.0 - p.getParam("changeAmount") * p.getParam("changeAmount") * 0.9;
+        if (p.getParam ("changeAmount") > 0.0)
+            _changeAmount = 1.0 - p.getParam ("changeAmount") * p.getParam ("changeAmount") * 0.9;
         else
-            _changeAmount = 1.0 + p.getParam("changeAmount") * p.getParam("changeAmount") * 10.0;
+            _changeAmount = 1.0 + p.getParam ("changeAmount") * p.getParam ("changeAmount") * 10.0;
         
         _changeTime = 0;
         _changeReached=false;
         
-        if (p.getParam("changeSpeed") == 1.0)
+        if (p.getParam ("changeSpeed") == 1.0)
             _changeLimit = 0;
         else
-            _changeLimit = (1.0 - p.getParam("changeSpeed")) * (1.0 - p.getParam("changeSpeed")) * 20000 + 32;
+            _changeLimit = (1.0 - p.getParam ("changeSpeed")) * (1.0 - p.getParam ("changeSpeed")) * 20000 + 32;
         
         
-        if (p.getParam("changeAmount2") > 0.0)
-            _changeAmount2 = 1.0 - p.getParam("changeAmount2") * p.getParam("changeAmount2") * 0.9;
+        if (p.getParam ("changeAmount2") > 0.0)
+            _changeAmount2 = 1.0 - p.getParam ("changeAmount2") * p.getParam ("changeAmount2") * 0.9;
         else
-            _changeAmount2 = 1.0 + p.getParam("changeAmount2") * p.getParam("changeAmount2") * 10.0;
+            _changeAmount2 = 1.0 + p.getParam ("changeAmount2") * p.getParam ("changeAmount2") * 10.0;
         
         _changeTime2 = 0;
         _changeReached2 = false;
         
-        if (p.getParam("changeSpeed2") == 1.0)
+        if (p.getParam ("changeSpeed2") == 1.0)
             _changeLimit2 = 0;
         else
-            _changeLimit2 = (1.0 - p.getParam("changeSpeed2")) * (1.0 - p.getParam("changeSpeed2")) * 20000 + 32;
+            _changeLimit2 = (1.0 - p.getParam ("changeSpeed2")) * (1.0 - p.getParam ("changeSpeed2")) * 20000 + 32;
         
         _changeLimit  *= (1 - p.getParam ("changeRepeat") + 0.1) / 1.1;
         _changeLimit2 *= (1 - p.getParam ("changeRepeat") + 0.1) / 1.1;
@@ -136,55 +136,56 @@ public:
         {
             p.paramsDirty = false;
             
-            _masterVolume = p.getParam("masterVolume") * p.getParam("masterVolume");
+            _masterVolume = p.getParam ("masterVolume") * p.getParam ("masterVolume");
             
-            _waveType = uint(p.getParam("waveType"));
+            _waveType = int (p.getParam ("waveType"));
             
-            if (p.getParam("sustainTime") < 0.01) p.setParam("sustainTime", 0.01);
+            if (p.getParam ("sustainTime") < 0.01)
+                p.setParam("sustainTime", 0.01);
             
             clampTotalLength();
             
-            _sustainPunch = p.getParam("sustainPunch");
+            _sustainPunch = p.getParam ("sustainPunch");
             
             _phase = 0;
             
-            _minFreqency = p.getParam("minFrequency");
-            _muted=false;
-            _overtones = p.getParam("overtones")*10;
-            _overtoneFalloff = p.getParam("overtoneFalloff");
+            _minFreqency = p.getParam ("minFrequency");
+            _muted = false;
+            _overtones = p.getParam ("overtones") * 10;
+            _overtoneFalloff = p.getParam ("overtoneFalloff");
                 
-            _bitcrush_freq = 1 - std::pow (p.getParam ("bitCrush"),1.0/3.0);
-            _bitcrush_freq_sweep = - p.getParam ("bitCrushSweep")* 0.000015;
+            _bitcrush_freq = 1 - std::pow (p.getParam ("bitCrush"), 1.0/3.0);
+            _bitcrush_freq_sweep = - p.getParam ("bitCrushSweep") * 0.000015;
             _bitcrush_phase=0;
             _bitcrush_last=0;
             
-            _compression_factor = 1/(1+4*p.getParam("compressionAmount"));
+            _compression_factor = 1 / (1 + 4 * p.getParam ("compressionAmount"));
             
-            _filters = p.getParam("lpFilterCutoff") != 1.0 || p.getParam("hpFilterCutoff") != 0.0;
+            _filters = p.getParam ("lpFilterCutoff") != 1.0 || p.getParam ("hpFilterCutoff") != 0.0;
             
             _lpFilterPos = 0.0;
             _lpFilterDeltaPos = 0.0;
-            _lpFilterCutoff = p.getParam("lpFilterCutoff") * p.getParam("lpFilterCutoff") * p.getParam("lpFilterCutoff") * 0.1;
-            _lpFilterDeltaCutoff = 1.0 + p.getParam("lpFilterCutoffSweep") * 0.0001;
-            _lpFilterDamping = 5.0 / (1.0 + p.getParam("lpFilterResonance") * p.getParam("lpFilterResonance") * 20.0) * (0.01 + _lpFilterCutoff);
+            _lpFilterCutoff = p.getParam ("lpFilterCutoff") * p.getParam ("lpFilterCutoff") * p.getParam ("lpFilterCutoff") * 0.1;
+            _lpFilterDeltaCutoff = 1.0 + p.getParam ("lpFilterCutoffSweep") * 0.0001;
+            _lpFilterDamping = 5.0 / (1.0 + p.getParam ("lpFilterResonance") * p.getParam ("lpFilterResonance") * 20.0) * (0.01 + _lpFilterCutoff);
             if (_lpFilterDamping > 0.8) _lpFilterDamping = 0.8;
             _lpFilterDamping = 1.0 - _lpFilterDamping;
-            _lpFilterOn = p.getParam("lpFilterCutoff") != 1.0;
+            _lpFilterOn = p.getParam ("lpFilterCutoff") != 1.0;
             
             _hpFilterPos = 0.0;
-            _hpFilterCutoff = p.getParam("hpFilterCutoff") * p.getParam("hpFilterCutoff") * 0.1;
-            _hpFilterDeltaCutoff = 1.0 + p.getParam("hpFilterCutoffSweep") * 0.0003;
+            _hpFilterCutoff = p.getParam ("hpFilterCutoff") * p.getParam ("hpFilterCutoff") * 0.1;
+            _hpFilterDeltaCutoff = 1.0 + p.getParam ("hpFilterCutoffSweep") * 0.0003;
             
             _vibratoPhase = 0.0;
-            _vibratoSpeed = p.getParam("vibratoSpeed") * p.getParam("vibratoSpeed") * 0.01;
-            _vibratoAmplitude = p.getParam("vibratoDepth") * 0.5;
+            _vibratoSpeed = p.getParam ("vibratoSpeed") * p.getParam ("vibratoSpeed") * 0.01;
+            _vibratoAmplitude = p.getParam ("vibratoDepth") * 0.5;
             
             _envelopeVolume = 0.0;
             _envelopeStage = 0;
             _envelopeTime = 0;
-            _envelopeLength0 = p.getParam("attackTime") * p.getParam("attackTime") * 100000.0;
-            _envelopeLength1 = p.getParam("sustainTime") * p.getParam("sustainTime") * 100000.0;
-            _envelopeLength2 = p.getParam("decayTime") * p.getParam("decayTime") * 100000.0 + 10;
+            _envelopeLength0 = p.getParam ("attackTime") * p.getParam ("attackTime") * 100000.0;
+            _envelopeLength1 = p.getParam ("sustainTime") * p.getParam ("sustainTime") * 100000.0;
+            _envelopeLength2 = p.getParam ("decayTime") * p.getParam ("decayTime") * 100000.0 + 10;
             _envelopeLength = _envelopeLength0;
             _envelopeFullLength = _envelopeLength0 + _envelopeLength1 + _envelopeLength2;
             
@@ -192,11 +193,13 @@ public:
             _envelopeOverLength1 = 1.0 / _envelopeLength1;
             _envelopeOverLength2 = 1.0 / _envelopeLength2;
             
-            _flanger = p.getParam("flangerOffset") != 0.0 || p.getParam("flangerSweep") != 0.0;
+            _flanger = p.getParam ("flangerOffset") != 0.0 || p.getParam ("flangerSweep") != 0.0;
             
-            _flangerOffset = p.getParam("flangerOffset") * p.getParam("flangerOffset") * 1020.0;
-            if (p.getParam("flangerOffset") < 0.0) _flangerOffset = -_flangerOffset;
-            _flangerDeltaOffset = p.getParam("flangerSweep") * p.getParam("flangerSweep") * p.getParam("flangerSweep") * 0.2;
+            _flangerOffset = p.getParam ("flangerOffset") * p.getParam ("flangerOffset") * 1020.0;
+            if (p.getParam ("flangerOffset") < 0.0)
+                _flangerOffset = -_flangerOffset;
+            
+            _flangerDeltaOffset = p.getParam ("flangerSweep") * p.getParam ("flangerSweep") * p.getParam ("flangerSweep") * 0.2;
             _flangerPos = 0;
             
             _flangerBuffer.resize (1024);
@@ -222,14 +225,13 @@ public:
             if (p.getParam ("repeatSpeed") == 0.0)
                 _repeatLimit = 0;
             else
-                _repeatLimit = int((1.0-p.getParam("repeatSpeed")) * (1.0-p.getParam("repeatSpeed")) * 20000) + 32;
+                _repeatLimit = int ((1.0 - p.getParam ("repeatSpeed")) * (1.0 - p.getParam ("repeatSpeed")) * 20000) + 32;
         }
     }
     
     /**
      * Writes the wave to the supplied buffer ByteArray
      * @param	buffer		A ByteArray to write the wave to
-     * @param	waveData	If the wave should be written for the waveData
      * @return				If the wave is finished
      */
     bool synthWave (float* buffer, int start, int length, int sampleRate = 44100, int bitDepth = 16)
@@ -242,9 +244,7 @@ public:
         for (int i = 0; i < length; i++)
         {
             if (_finished)
-            {
                 return true;
-            }
             
             // Repeats every _repeatLimit times, partially resetting the sound parameters
             if (_repeatLimit != 0)
@@ -252,25 +252,25 @@ public:
                 if (++_repeatTime >= _repeatLimit)
                 {
                     _repeatTime = 0;
-                    reset(false);
+                    reset (false);
                 }
             }
             
             _changePeriodTime++;
-            if (_changePeriodTime>=_changePeriod)
+            if (_changePeriodTime >= _changePeriod)
             {
-                _changeTime=0;
-                _changeTime2=0;
-                _changePeriodTime=0;
+                _changeTime = 0;
+                _changeTime2 = 0;
+                _changePeriodTime = 0;
                 if (_changeReached)
                 {
                     _period /= _changeAmount;
-                    _changeReached=false;
+                    _changeReached = false;
                 }
                 if (_changeReached2)
                 {
                     _period /= _changeAmount2;
-                    _changeReached2=false;
+                    _changeReached2 = false;
                 }
             }
             
@@ -290,7 +290,7 @@ public:
                 if (++_changeTime2 >= _changeLimit2)
                 {
                     _period *= _changeAmount2;
-                    _changeReached2=true;
+                    _changeReached2 = true;
                 }
             }
             
@@ -302,9 +302,8 @@ public:
             if (_period > _maxPeriod)
             {
                 _period = _maxPeriod;
-                if (_minFreqency > 0.0) {
-                        _muted = true;
-                }
+                if (_minFreqency > 0.0)
+                    _muted = true;
             }
             
             _periodTemp = _period;
@@ -324,8 +323,10 @@ public:
             if (_waveType == 0)
             {
                 _squareDuty += _dutySweep;
-                     if (_squareDuty < 0.0) _squareDuty = 0.0;
-                else if (_squareDuty > 0.5) _squareDuty = 0.5;
+                 if (_squareDuty < 0.0)
+                     _squareDuty = 0.0;
+                else if (_squareDuty > 0.5)
+                    _squareDuty = 0.5;
             }
             
             // Moves through the different stages of the volume envelope
@@ -353,21 +354,27 @@ public:
             if (_flanger)
             {
                 _flangerOffset += _flangerDeltaOffset;
-                _flangerInt = int(_flangerOffset);
-                     if (_flangerInt < 0) 	_flangerInt = -_flangerInt;
-                else if (_flangerInt > 1023) _flangerInt = 1023;
+                _flangerInt = int (_flangerOffset);
+                
+                if (_flangerInt < 0)
+                    _flangerInt = -_flangerInt;
+                else if (_flangerInt > 1023)
+                    _flangerInt = 1023;
             }
             
             // Moves the high-pass filter cutoff
             if (_filters && _hpFilterDeltaCutoff != 0.0)
             {
                 _hpFilterCutoff *= _hpFilterDeltaCutoff;
-                     if (_hpFilterCutoff < 0.00001) 	_hpFilterCutoff = 0.00001;
-                else if (_hpFilterCutoff > 0.1) 		_hpFilterCutoff = 0.1;
+                
+                if (_hpFilterCutoff < 0.00001)
+                    _hpFilterCutoff = 0.00001;
+                else if (_hpFilterCutoff > 0.1)
+                    _hpFilterCutoff = 0.1;
             }
             
             _superSample = 0.0;
-            for(int j = 0; j < 8; j++)
+            for (int j = 0; j < 8; j++)
             {
                 // Cycles through the period
                 _phase++;
@@ -393,22 +400,22 @@ public:
                     }
                 }
                 
-                _sample=0;
+                _sample = 0;
                 float overtonestrength = 1;
                 for (int k = 0; k <= _overtones; k++)
                 {
                     float tempphase = std::fmod ((_phase*(k+1)), _periodTemp);
                     // Gets the sample from the oscillator
-                    switch(_waveType)
+                    switch (_waveType)
                     {
                         case 0: // Square wave
                         {
-                            _sample += overtonestrength*(((tempphase / _periodTemp) < _squareDuty) ? 0.5 : -0.5);
+                            _sample += overtonestrength * (((tempphase / _periodTemp) < _squareDuty) ? 0.5 : -0.5);
                             break;
                         }
                         case 1: // Saw wave
                         {
-                            _sample += overtonestrength*(1.0 - (tempphase / _periodTemp) * 2.0);
+                            _sample += overtonestrength * (1.0 - (tempphase / _periodTemp) * 2.0);
                             break;
                         }
                         case 2: // Sine wave (fast and accurate approx)
@@ -416,7 +423,7 @@ public:
                              _pos = tempphase / _periodTemp;
                              _pos = _pos > 0.5 ? (_pos - 1.0) * 6.28318531 : _pos * 6.28318531;
                             float _tempsample = _pos < 0 ? 1.27323954 * _pos + .405284735 * _pos * _pos : 1.27323954 * _pos - 0.405284735 * _pos * _pos;
-                            _sample += overtonestrength*(_tempsample < 0 ? .225 * (_tempsample *-_tempsample - _tempsample) + _tempsample : .225 * (_tempsample * _tempsample - _tempsample) + _tempsample);
+                            _sample += overtonestrength * (_tempsample < 0 ? .225 * (_tempsample * -_tempsample - _tempsample) + _tempsample : .225 * (_tempsample * _tempsample - _tempsample) + _tempsample);
                             break;
                         }
                         case 3: // Noise
@@ -426,12 +433,12 @@ public:
                         }
                         case 4: // Triangle Wave
                         {
-                            _sample += overtonestrength*(std::abs(1-(tempphase / _periodTemp)*2)-1);
+                            _sample += overtonestrength * (std::abs (1 - (tempphase / _periodTemp) * 2) - 1);
                             break;
                         }
                         case 5: // Pink Noise
                         {
-                            _sample += overtonestrength*(_pinkNoiseBuffer[uint(tempphase * 32 / int(_periodTemp))%32]);
+                            _sample += overtonestrength * (_pinkNoiseBuffer [int (tempphase * 32 / int (_periodTemp)) % 32]);
                             break;
                         }
                         case 6: // tan
@@ -446,26 +453,26 @@ public:
                             _pos = tempphase / _periodTemp;
                             _pos = _pos > 0.5 ? (_pos - 1.0) * 6.28318531 : _pos * 6.28318531;
                             float _tempsample = _pos < 0 ? 1.27323954 * _pos + .405284735 * _pos * _pos : 1.27323954 * _pos - 0.405284735 * _pos * _pos;
-                            float value = 0.75*(_tempsample < 0 ? .225 * (_tempsample *-_tempsample - _tempsample) + _tempsample : .225 * (_tempsample * _tempsample - _tempsample) + _tempsample);
+                            float value = 0.75 * (_tempsample < 0 ? .225 * (_tempsample * -_tempsample - _tempsample) + _tempsample : .225 * (_tempsample * _tempsample - _tempsample) + _tempsample);
                             //then whistle (essentially an overtone with frequencyx20 and amplitude0.25
                             
-                            _pos = std::fmod ((tempphase*20), _periodTemp) / _periodTemp;
+                            _pos = std::fmod ((tempphase * 20), _periodTemp) / _periodTemp;
                             _pos = _pos > 0.5 ? (_pos - 1.0) * 6.28318531 : _pos * 6.28318531;
                             _tempsample = _pos < 0 ? 1.27323954 * _pos + .405284735 * _pos * _pos : 1.27323954 * _pos - 0.405284735 * _pos * _pos;
-                            value += 0.25*(_tempsample < 0 ? .225 * (_tempsample *-_tempsample - _tempsample) + _tempsample : .225 * (_tempsample * _tempsample - _tempsample) + _tempsample);
+                            value += 0.25 * (_tempsample < 0 ? .225 * (_tempsample *-_tempsample - _tempsample) + _tempsample : .225 * (_tempsample * _tempsample - _tempsample) + _tempsample);
                             
-                            _sample += overtonestrength*value;//main wave
+                            _sample += overtonestrength * value;//main wave
                             
                             break;
                         }
                         case 8: // Breaker
                         {
                             float amp = tempphase / _periodTemp;
-                            _sample += overtonestrength*(std::abs(1-amp*amp*2)-1);
+                            _sample += overtonestrength * (std::abs (1 - amp * amp * 2) - 1);
                             break;
                         }
                     }
-                    overtonestrength*=(1-_overtoneFalloff);
+                    overtonestrength *= (1 - _overtoneFalloff);
                     
                 }
                 
@@ -474,8 +481,11 @@ public:
                 {
                     _lpFilterOldPos = _lpFilterPos;
                     _lpFilterCutoff *= _lpFilterDeltaCutoff;
-                         if (_lpFilterCutoff < 0.0) _lpFilterCutoff = 0.0;
-                    else if (_lpFilterCutoff > 0.1) _lpFilterCutoff = 0.1;
+                    
+                     if (_lpFilterCutoff < 0.0)
+                         _lpFilterCutoff = 0.0;
+                    else if (_lpFilterCutoff > 0.1)
+                        _lpFilterCutoff = 0.1;
                     
                     if (_lpFilterOn)
                     {
@@ -507,41 +517,34 @@ public:
             }
             
             // Clipping if too loud
-            if (_superSample > 8.0) 	_superSample = 8.0;
-            else if (_superSample < -8.0) 	_superSample = -8.0;
+            if (_superSample > 8.0)
+                _superSample = 8.0;
+            else if (_superSample < -8.0)
+                _superSample = -8.0;
             
             // Averages out the super samples and applies volumes
             _superSample = _masterVolume * _envelopeVolume * _superSample * 0.125;
             
-            
             //BIT CRUSH
-            _bitcrush_phase+=_bitcrush_freq;
-            if (_bitcrush_phase>1)
+            _bitcrush_phase += _bitcrush_freq;
+            if (_bitcrush_phase > 1)
             {
-                _bitcrush_phase=0;
-                _bitcrush_last=_superSample;
+                _bitcrush_phase = 0;
+                _bitcrush_last = _superSample;
             }
-            _bitcrush_freq = std::max (std::min (_bitcrush_freq+_bitcrush_freq_sweep, 1.0f), 0.0f);
             
-            _superSample=_bitcrush_last;
+            _bitcrush_freq = std::max (std::min (_bitcrush_freq + _bitcrush_freq_sweep, 1.0f), 0.0f);
+            
+            _superSample = _bitcrush_last;
         
-            
-            
              //compressor
-            
              if (_superSample > 0)
-             {
                  _superSample = std::pow (_superSample, _compression_factor);
-             }
              else
-             {
                  _superSample = -std::pow (-_superSample, _compression_factor);
-             }
             
              if (_muted)
-             {
                  _superSample = 0;
-             }
             
             buffer[start + i] += _superSample / 128.0;
         }
@@ -562,7 +565,6 @@ private:
     const int LoResNoisePeriod = 8;
     
     SfxrParams _params;                      // Params instance
-    SfxrParams _original;                    // Copied properties for mutation base
     
     //--------------------------------------------------------------------------
     //
@@ -601,7 +603,6 @@ private:
     float _minFreqency;                       // Minimum frequency before stopping
     bool _muted;                              // Whether or not min frequency has been attained
     
-    
     int _overtones;                           // Minimum frequency before stopping
     float _overtoneFalloff;                   // Minimum frequency before stopping
     
@@ -621,8 +622,7 @@ private:
     int _changeTime2;                         // Counter for the note change
     int _changeLimit2;                        // Once the time reaches this limit, the note changes
     bool _changeReached2;
-    
-    
+        
     float _squareDuty;                        // Offset of center switching point in the square wave
     float _dutySweep;                         // Amount to change the duty by
     
