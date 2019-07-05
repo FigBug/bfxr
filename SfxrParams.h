@@ -26,15 +26,6 @@
 class Param
 {
 public:
-    std::string name;
-    std::string description;
-    int grouping = 0;
-    std::string uid;
-    float defaultValue = 0;
-    float minValue = 0;
-    float maxValue = 1;
-    float currentValue = 0;
-    
     Param() = default;
 
     Param (std::string name_,
@@ -54,6 +45,15 @@ public:
         currentValue (defaultValue)
     {
     }
+
+    std::string name;
+    std::string description;
+    int grouping = 0;
+    std::string uid;
+    float defaultValue = 0.0f;
+    float minValue = 0.0f;
+    float maxValue = 1.0f;
+    float currentValue = 0.0f;
 };
 
 class SfxrParams
@@ -69,7 +69,34 @@ public:
     {
         resetParams();
     }
-    
+
+    std::vector<std::string> getParams()
+    {
+        std::vector<std::string> uids;
+        for (auto& p : params)
+            uids.push_back (p.uid);
+
+        return uids;
+    }
+
+    std::string getName (std::string param)
+    {
+        for (auto p : params)
+            if (p.uid == param)
+                return p.name;
+
+        return {};
+    }
+
+    std::string getDescription (std::string param)
+    {
+        for (auto p : params)
+            if (p.uid == param)
+                return p.name;
+
+        return {};
+    }
+
     float getDefault (std::string param)
     {
         return getProperty (param, 4);
@@ -601,7 +628,7 @@ public:
     
     std::vector<Param> params = {
         // real name, decription, grouping,name, default, min, max,
-        {"Wave Type","Shape of the wave.", 0,"waveType",2,0,WAVETYPECOUNT-0.0001}, // the 6.999 thing is because this is really an int parameter...
+        {"Wave Type","Shape of the wave.", 0,"waveType",2,0,WAVETYPECOUNT-0.0001f}, // the 6.999 thing is because this is really an int parameter...
         
         {"Master Volume","Overall volume of the sound.", 1,"masterVolume",0.5,0,1},
         {"Attack Time","Length of the volume envelope attack.", 1,"attackTime",0,0,1},
