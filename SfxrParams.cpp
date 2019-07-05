@@ -20,6 +20,6 @@
 
 #include "SfxrParams.h"
 
-static const int SfxrParams::WAVETYPECOUNT = 9;
+const int SfxrParams::WAVETYPECOUNT = 9;
 
 

@@ -24,149 +24,8 @@
 
 class SfxrSynth
 {
-    //--------------------------------------------------------------------------
-    //
-    //  Sound Parameters
-    //
-    //--------------------------------------------------------------------------
-    
-    const float MIN_LENGTH = 0.18;
-    const int version = 104;
-    const std::string CACHED = "cached";		// triggered when the synth stored in this is fully cached (either via a cache command, or play()).
-    const std::string PLAY_COMPLETE = "playcomplete";		// triggered when the synth stored in this is fully cached (either via a cache command, or play()).
-    //should be <32
-    const int LoResNoisePeriod = 8;
-    
-    SfxrParams _params;	// Params instance
-    
-    //Sound _sound;							// Sound instance used to play the sound
-    //SoundChannel _channel;					// SoundChannel instance of playing Sound
-    
-    bool _mutation;						// If the current sound playing or caching is a mutation
-    
-    std::vector<uint8_t> _cachedWave;					// Cached wave data from a cacheSound() call
-    bool _cachingNormal;					// If the synth is caching a normal sound
-    
-    int _cachingMutation;					// Current caching ID
-    std::vector<int8_t> _cachedMutation;				// Current caching wave data for mutation
-    std::vector<int8_t> _cachedMutations;	// Cached mutated wave data
-    unsigned int _cachedMutationsNum;				// Number of cached mutations
-    float _cachedMutationAmount;			// Amount to mutate during cache
-    
-    bool _cachingAsync;					// If the synth is currently caching asynchronously
-    unsigned int _cacheTimePerFrame;				// Maximum time allowed per frame to cache sound asynchronously
-    //Function _cachedCallback;				// Function to call when finished caching asynchronously
-    //Shape _cacheTicker;						// Shape used for enterFrame event
-    
-    std::vector<uint8_t> _waveData;					// Full wave, read out in chuncks by the onSampleData method
-    unsigned int _waveDataPos;						// Current position in the waveData
-    unsigned int _waveDataLength;					// Number of bytes in the waveData
-    unsigned int _waveDataBytes;					// Number of bytes to write to the soundcard
-    
-    SfxrParams _original;					// Copied properties for mutation base
-    
-    //--------------------------------------------------------------------------
-    //
-    //  Synth Variables
-    //
-    //--------------------------------------------------------------------------
-    
-    bool _finished;						// If the sound has finished
-    
-    float _masterVolume;					// masterVolume * masterVolume (for quick calculations)
-    
-    unsigned int _waveType;							// The type of wave to generate
-    
-    float _envelopeVolume;					// Current volume of the envelope
-    int _envelopeStage;						// Current stage of the envelope (attack, sustain, decay, end)
-    float _envelopeTime;					// Current time through current enelope stage
-    float _envelopeLength;					// Length of the current envelope stage
-    float _envelopeLength0;				// Length of the attack stage
-    float _envelopeLength1;				// Length of the sustain stage
-    float _envelopeLength2;				// Length of the decay stage
-    float _envelopeOverLength0;			// 1 / _envelopeLength0 (for quick calculations)
-    float _envelopeOverLength1;			// 1 / _envelopeLength1 (for quick calculations)
-    float _envelopeOverLength2;			// 1 / _envelopeLength2 (for quick calculations)
-    float _envelopeFullLength;				// Full length of the volume envelop (and therefore sound)
-    
-    float _sustainPunch;					// The punch factor (louder at begining of sustain)
-    
-    int _phase;								// Phase through the wave
-    float _pos;							// Phase expresed as a Number from 0-1, used for fast sin approx
-    float _period;							// Period of the wave
-    float _periodTemp;						// Period modified by vibrato
-    float _maxPeriod;						// Maximum period before sound stops (from minFrequency)
-    
-    float _slide;							// Note slide
-    float _deltaSlide;						// Change in slide
-    float _minFreqency;					// Minimum frequency before stopping
-    bool _muted;							// Whether or not min frequency has been attained
-    
-    
-    int _overtones;					// Minimum frequency before stopping
-    float _overtoneFalloff;					// Minimum frequency before stopping
-    
-    float _vibratoPhase;					// Phase through the vibrato sine wave
-    float _vibratoSpeed;					// Speed at which the vibrato phase moves
-    float _vibratoAmplitude;				// Amount to change the period of the wave by at the peak of the vibrato wave
-    
-    float _changePeriod;
-    int _changePeriodTime;
-    
-    float _changeAmount;					// Amount to change the note by
-    int _changeTime;						// Counter for the note change
-    int _changeLimit;						// Once the time reaches this limit, the note changes
-    bool _changeReached;
-    
-    float _changeAmount2;					// Amount to change the note by
-    int _changeTime2;						// Counter for the note change
-    int _changeLimit2;						// Once the time reaches this limit, the note changes
-    bool _changeReached2;
-    
-    
-    float _squareDuty;						// Offset of center switching point in the square wave
-    float _dutySweep;						// Amount to change the duty by
-    
-    int _repeatTime;						// Counter for the repeats
-    int _repeatLimit;						// Once the time reaches this limit, some of the variables are reset
-    
-    bool _flanger;						// If the flanger is active
-    float _flangerOffset;					// Phase offset for flanger effect
-    float _flangerDeltaOffset;				// Change in phase offset
-    int _flangerInt;							// Integer flanger offset, for bit maths
-    int _flangerPos;							// Position through the flanger buffer
-    std::vector<float> _flangerBuffer;			// Buffer of wave values used to create the out of phase second wave
-    
-    bool _filters;						// If the filters are active
-    float _lpFilterPos;					// Adjusted wave position after low-pass filter
-    float _lpFilterOldPos;					// Previous low-pass wave position
-    float _lpFilterDeltaPos;				// Change in low-pass wave position, as allowed by the cutoff and damping
-    float _lpFilterCutoff;					// Cutoff multiplier which adjusts the amount the wave position can move
-    float _lpFilterDeltaCutoff;			// Speed of the low-pass cutoff multiplier
-    float _lpFilterDamping;				// Damping muliplier which restricts how fast the wave position can move
-    bool _lpFilterOn;					// If the low pass filter is active
-    
-    float _hpFilterPos;					// Adjusted wave position after high-pass filter
-    float _hpFilterCutoff;					// Cutoff multiplier which adjusts the amount the wave position can move
-    float _hpFilterDeltaCutoff;			// Speed of the high-pass cutoff multiplier
-    
-    std::vector<float> _noiseBuffer;			// Buffer of random values used to generate noise
-    std::vector<float> _pinkNoiseBuffer;			// Buffer of random values used to generate noise
-    std::vector<float> _loResNoiseBuffer;			// Buffer of random values used to generate noise
-    
-    PinkNumber _pinkNumber;
-    
-    float _superSample;					// Actual sample writen to the wave
-    float _sample;							// Sub-sample calculated 8 times per actual sample, averaged out to get the super sample
-    unsigned int _sampleCount;						// Number of samples added to the buffer sample
-    float _bufferSample;					// Another supersample used to create a 22050Hz wave
-    
-    float _bitcrush_freq;					// inversely proportional to the number of samples to skip
-    float _bitcrush_freq_sweep;			// change of the above
-    float _bitcrush_phase;					// samples when this > 1
-    float _bitcrush_last;					// last sample value
-    
-    float _compression_factor;
+public:
+    SfxrSynth() = default;
     
     //--------------------------------------------------------------------------
     //
@@ -180,14 +39,10 @@ class SfxrSynth
         return _params;
     }
     
-    void setParams(SfxrParams value)
+    void setParams (SfxrParams value)
     {
         _params = value;
         _params.paramsDirty = true;
-    }
-    
-    SfxrSynth()
-    {
     }
     
     //--------------------------------------------------------------------------
@@ -377,7 +232,7 @@ class SfxrSynth
      * @param	waveData	If the wave should be written for the waveData
      * @return				If the wave is finished
      */
-    bool synthWave (std::vector<uint8_t>& buffer, int length, bool waveData = false, int sampleRate = 44100, int bitDepth = 16)
+    bool synthWave (float* buffer, int start, int length, int sampleRate = 44100, int bitDepth = 16)
     {
         _finished = false;
         
@@ -688,9 +543,127 @@ class SfxrSynth
                  _superSample = 0;
              }
             
-            buffer.push_back (_superSample);
+            buffer[start + i] += _superSample / 128.0;
         }
         
         return false;
     }
+    
+private:
+    //--------------------------------------------------------------------------
+    //
+    //  Sound Parameters
+    //
+    //--------------------------------------------------------------------------
+    
+    const float MIN_LENGTH = 0.18;
+    const int version = 104;
+    //should be <32
+    const int LoResNoisePeriod = 8;
+    
+    SfxrParams _params;                      // Params instance
+    SfxrParams _original;                    // Copied properties for mutation base
+    
+    //--------------------------------------------------------------------------
+    //
+    //  Synth Variables
+    //
+    //--------------------------------------------------------------------------
+    
+    bool _finished;                           // If the sound has finished
+    
+    float _masterVolume;                      // masterVolume * masterVolume (for quick calculations)
+    
+    unsigned int _waveType;                   // The type of wave to generate
+    
+    float _envelopeVolume;                    // Current volume of the envelope
+    int _envelopeStage;                       // Current stage of the envelope (attack, sustain, decay, end)
+    float _envelopeTime;                      // Current time through current enelope stage
+    float _envelopeLength;                    // Length of the current envelope stage
+    float _envelopeLength0;                   // Length of the attack stage
+    float _envelopeLength1;                   // Length of the sustain stage
+    float _envelopeLength2;                   // Length of the decay stage
+    float _envelopeOverLength0;               // 1 / _envelopeLength0 (for quick calculations)
+    float _envelopeOverLength1;               // 1 / _envelopeLength1 (for quick calculations)
+    float _envelopeOverLength2;               // 1 / _envelopeLength2 (for quick calculations)
+    float _envelopeFullLength;                // Full length of the volume envelop (and therefore sound)
+    
+    float _sustainPunch;                      // The punch factor (louder at begining of sustain)
+    
+    int _phase;                               // Phase through the wave
+    float _pos;                               // Phase expresed as a Number from 0-1, used for fast sin approx
+    float _period;                            // Period of the wave
+    float _periodTemp;                        // Period modified by vibrato
+    float _maxPeriod;                         // Maximum period before sound stops (from minFrequency)
+    
+    float _slide;                             // Note slide
+    float _deltaSlide;                        // Change in slide
+    float _minFreqency;                       // Minimum frequency before stopping
+    bool _muted;                              // Whether or not min frequency has been attained
+    
+    
+    int _overtones;                           // Minimum frequency before stopping
+    float _overtoneFalloff;                   // Minimum frequency before stopping
+    
+    float _vibratoPhase;                      // Phase through the vibrato sine wave
+    float _vibratoSpeed;                      // Speed at which the vibrato phase moves
+    float _vibratoAmplitude;                  // Amount to change the period of the wave by at the peak of the vibrato wave
+    
+    float _changePeriod;
+    int _changePeriodTime;
+    
+    float _changeAmount;                      // Amount to change the note by
+    int _changeTime;                          // Counter for the note change
+    int _changeLimit;                         // Once the time reaches this limit, the note changes
+    bool _changeReached;
+    
+    float _changeAmount2;                     // Amount to change the note by
+    int _changeTime2;                         // Counter for the note change
+    int _changeLimit2;                        // Once the time reaches this limit, the note changes
+    bool _changeReached2;
+    
+    
+    float _squareDuty;                        // Offset of center switching point in the square wave
+    float _dutySweep;                         // Amount to change the duty by
+    
+    int _repeatTime;                          // Counter for the repeats
+    int _repeatLimit;                         // Once the time reaches this limit, some of the variables are reset
+    
+    bool _flanger;                            // If the flanger is active
+    float _flangerOffset;                     // Phase offset for flanger effect
+    float _flangerDeltaOffset;                // Change in phase offset
+    int _flangerInt;                          // Integer flanger offset, for bit maths
+    int _flangerPos;                          // Position through the flanger buffer
+    std::vector<float> _flangerBuffer;        // Buffer of wave values used to create the out of phase second wave
+    
+    bool _filters;                            // If the filters are active
+    float _lpFilterPos;                       // Adjusted wave position after low-pass filter
+    float _lpFilterOldPos;                    // Previous low-pass wave position
+    float _lpFilterDeltaPos;                  // Change in low-pass wave position, as allowed by the cutoff and damping
+    float _lpFilterCutoff;                    // Cutoff multiplier which adjusts the amount the wave position can move
+    float _lpFilterDeltaCutoff;               // Speed of the low-pass cutoff multiplier
+    float _lpFilterDamping;                   // Damping muliplier which restricts how fast the wave position can move
+    bool _lpFilterOn;                         // If the low pass filter is active
+    
+    float _hpFilterPos;                       // Adjusted wave position after high-pass filter
+    float _hpFilterCutoff;                    // Cutoff multiplier which adjusts the amount the wave position can move
+    float _hpFilterDeltaCutoff;               // Speed of the high-pass cutoff multiplier
+    
+    std::vector<float> _noiseBuffer;          // Buffer of random values used to generate noise
+    std::vector<float> _pinkNoiseBuffer;      // Buffer of random values used to generate noise
+    std::vector<float> _loResNoiseBuffer;     // Buffer of random values used to generate noise
+    
+    PinkNumber _pinkNumber;
+    
+    float _superSample;                       // Actual sample writen to the wave
+    float _sample;                            // Sub-sample calculated 8 times per actual sample, averaged out to get the super sample
+    unsigned int _sampleCount;                // Number of samples added to the buffer sample
+    float _bufferSample;                      // Another supersample used to create a 22050Hz wave
+    
+    float _bitcrush_freq;                     // inversely proportional to the number of samples to skip
+    float _bitcrush_freq_sweep;               // change of the above
+    float _bitcrush_phase;                    // samples when this > 1
+    float _bitcrush_last;                     // last sample value
+    
+    float _compression_factor;
 };
