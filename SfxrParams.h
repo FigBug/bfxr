@@ -19,6 +19,8 @@
  */
 #pragma once
 
+#include "Util.h"
+
 class Param
 {
 public:
@@ -61,7 +63,7 @@ public:
     //
     //--------------------------------------------------------------------------
     
-    const int WAVETYPECOUNT = 9;
+    static const int WAVETYPECOUNT;
     
     /** If the parameters have been changed since last time (shouldn't used cached sound) */
     bool paramsDirty = true;
@@ -133,13 +135,12 @@ public:
     
     SfxrParams()
     {
-        //initialize param object
         resetParams();
     }
     
-    float getDefault(std::string param)
+    float getDefault (std::string param)
     {
-        return getProperty(param,4);
+        return getProperty (param,4);
     }
     
     float getMin(std::string param)
@@ -152,7 +153,7 @@ public:
         return getProperty(param,6);
     }
     
-    float getProperty(std::string param, int index)
+    float getProperty (std::string param, int index)
     {
         for (auto p : params)
         {
@@ -171,12 +172,12 @@ public:
         return 0;
     }
     
-    float getParam(std::string param)
+    float getParam (std::string param)
     {
-        return getProperty(param,7);
+        return getProperty (param,7);
     }
     
-    void setParam(std::string param, float value)
+    void setParam (std::string param, float value)
     {
         for (auto& p : params)
         {
@@ -189,12 +190,12 @@ public:
     }
     
     /** Returns true if this parameter is locked */
-    bool lockedParam(std::string param)
+    bool lockedParam (std::string param)
     {
         return std::find (_lockedParams.begin(), _lockedParams.end(), param) != _lockedParams.end();
     }
     
-    void setAllLocked(bool locked)
+    void setAllLocked (bool locked)
     {
         _lockedParams.clear();
         
@@ -208,7 +209,7 @@ public:
         paramsDirty = true;
     }
     
-    void setParamLocked(std::string param, bool locked)
+    void setParamLocked (std::string param, bool locked)
     {
         auto itr = std::find (_lockedParams.begin(), _lockedParams.end(), param);
         
@@ -243,19 +244,19 @@ public:
     {
         resetParams();
         
-        setParam("startFrequency",0.4+dist (e2)*0.5);
+        setParam ("startFrequency",0.4+uniformRandom()*0.5);
         
-        setParam("sustainTime", dist (e2) * 0.1);
-        setParam("decayTime", 0.1 + dist (e2) * 0.4);
-        setParam("sustainPunch", 0.3 + dist (e2) * 0.3);
+        setParam ("sustainTime", uniformRandom() * 0.1);
+        setParam ("decayTime", 0.1 + uniformRandom() * 0.4);
+        setParam ("sustainPunch", 0.3 + uniformRandom() * 0.3);
         
-        if(dist (e2) < 0.5)
+        if (uniformRandom() < 0.5)
         {
-            setParam("changeSpeed", 0.5 + dist (e2) * 0.2);
-            int cnum = int(dist (e2)*7)+1;
-            int cden = cnum+int(dist (e2)*7)+2;
+            setParam ("changeSpeed", 0.5 + uniformRandom() * 0.2);
+            int cnum = int(uniformRandom()*7)+1;
+            int cden = cnum+int(uniformRandom()*7)+2;
             
-            setParam("changeAmount", float(cnum)/float(cden));
+            setParam ("changeAmount", float(cnum)/float(cden));
         }
         
     }
@@ -267,52 +268,53 @@ public:
     {
         resetParams();
         
-        setParam("waveType",uint(dist (e2) * 3));
-        if( int(getParam("waveType")) == 2 && dist (e2) < 0.5)
+        setParam("waveType",uint(uniformRandom() * 3));
+        if ( int(getParam("waveType")) == 2 && uniformRandom() < 0.5)
         {
             setParam("waveType",
-                uint(dist (e2) * 2));
+                uint(uniformRandom() * 2));
         }
         
         setParam("startFrequency",
-            0.5 + dist (e2) * 0.5);
+            0.5 + uniformRandom() * 0.5);
         setParam("minFrequency",
-            getParam("startFrequency") - 0.2 - dist (e2) * 0.6);
+            getParam("startFrequency") - 0.2 - uniformRandom() * 0.6);
         
-        if(getParam("minFrequency") < 0.2)
+        if (getParam("minFrequency") < 0.2)
             setParam("minFrequency",0.2);
         
-        setParam("slide", -0.15 - dist (e2) * 0.2);
+        setParam("slide", -0.15 - uniformRandom() * 0.2);
          
-        if(dist (e2) < 0.33)
+        if (uniformRandom() < 0.33)
         {
-            setParam("startFrequency", dist (e2) * 0.6);
-            setParam("minFrequency", dist (e2) * 0.1);
-            setParam("slide", -0.35 - dist (e2) * 0.3);
+            setParam("startFrequency", uniformRandom() * 0.6);
+            setParam("minFrequency", uniformRandom() * 0.1);
+            setParam("slide", -0.35 - uniformRandom() * 0.3);
         }
         
-        if(dist (e2) < 0.5)
+        if (uniformRandom() < 0.5)
         {
-            setParam("squareDuty", dist (e2) * 0.5);
-            setParam("dutySweep", dist (e2) * 0.2);
+            setParam("squareDuty", uniformRandom() * 0.5);
+            setParam("dutySweep", uniformRandom() * 0.2);
         }
         else
         {
-            setParam("squareDuty", 0.4 + dist (e2) * 0.5);
-            setParam("dutySweep",- dist (e2) * 0.7);
+            setParam("squareDuty", 0.4 + uniformRandom() * 0.5);
+            setParam("dutySweep",- uniformRandom() * 0.7);
         }
         
-        setParam("sustainTime", 0.1 + dist (e2) * 0.2);
-        setParam("decayTime", dist (e2) * 0.4);
-        if(dist (e2) < 0.5) setParam("sustainPunch", dist (e2) * 0.3);
+        setParam("sustainTime", 0.1 + uniformRandom() * 0.2);
+        setParam("decayTime", uniformRandom() * 0.4);
+        if (uniformRandom() < 0.5) setParam("sustainPunch", uniformRandom() * 0.3);
         
-        if(dist (e2) < 0.33)
+        if (uniformRandom() < 0.33)
         {
-            setParam("flangerOffset", dist (e2) * 0.2);
-            setParam("flangerSweep", -dist (e2) * 0.2);
+            setParam("flangerOffset", uniformRandom() * 0.2);
+            setParam("flangerSweep", -uniformRandom() * 0.2);
         }
         
-        if(dist (e2) < 0.5) setParam("hpFilterCutoff", dist (e2) * 0.3);
+        if (uniformRandom() < 0.5)
+            setParam("hpFilterCutoff", uniformRandom() * 0.3);
     }
     
     /**
@@ -323,36 +325,39 @@ public:
         resetParams();
         setParam("waveType", 3);
         
-        if(dist (e2) < 0.5)
+        if (uniformRandom() < 0.5)
         {
-            setParam("startFrequency", 0.1 + dist (e2) * 0.4);
-            setParam("slide", -0.1 + dist (e2) * 0.4);
+            setParam("startFrequency", 0.1 + uniformRandom() * 0.4);
+            setParam("slide", -0.1 + uniformRandom() * 0.4);
         }
         else
         {
-            setParam("startFrequency", 0.2 + dist (e2) * 0.7);
-            setParam("slide", -0.2 - dist (e2) * 0.2);
+            setParam("startFrequency", 0.2 + uniformRandom() * 0.7);
+            setParam("slide", -0.2 - uniformRandom() * 0.2);
         }
         
         setParam("startFrequency", getParam("startFrequency") * getParam("startFrequency"));
         
-        if(dist (e2) < 0.2) setParam("slide", 0.0);
-        if(dist (e2) < 0.33) setParam("repeatSpeed", 0.3 + dist (e2) * 0.5);
+        if (uniformRandom() < 0.2)
+            setParam("slide", 0.0);
         
-        setParam("sustainTime", 0.1 + dist (e2) * 0.3);
-        setParam("decayTime", dist (e2) * 0.5);
-        setParam("sustainPunch", 0.2 + dist (e2) * 0.6);
+        if (uniformRandom() < 0.33)
+            setParam("repeatSpeed", 0.3 + uniformRandom() * 0.5);
         
-        if(dist (e2) < 0.5)
+        setParam("sustainTime", 0.1 + uniformRandom() * 0.3);
+        setParam("decayTime", uniformRandom() * 0.5);
+        setParam("sustainPunch", 0.2 + uniformRandom() * 0.6);
+        
+        if (uniformRandom() < 0.5)
         {
-            setParam("flangerOffset", -0.3 + dist (e2) * 0.9);
-            setParam("flangerSweep", -dist (e2) * 0.3);
+            setParam("flangerOffset", -0.3 + uniformRandom() * 0.9);
+            setParam("flangerSweep", -uniformRandom() * 0.3);
         }
         
-        if(dist (e2) < 0.33)
+        if (uniformRandom() < 0.33)
         {
-            setParam("changeSpeed", 0.6 + dist (e2) * 0.3);
-            setParam("changeAmount", 0.8 - dist (e2) * 1.6);
+            setParam("changeSpeed", 0.6 + uniformRandom() * 0.3);
+            setParam("changeAmount", 0.8 - uniformRandom() * 1.6);
         }
     }
     
@@ -363,29 +368,31 @@ public:
     {
         resetParams();
         
-        if(dist (e2) < 0.5) setParam("waveType", 1);
-        else 					setParam("squareDuty", dist (e2) * 0.6);
+        if (uniformRandom() < 0.5)
+            setParam("waveType", 1);
+        else
+            setParam("squareDuty", uniformRandom() * 0.6);
         
-        if(dist (e2) < 0.5)
+        if (uniformRandom() < 0.5)
         {
-            setParam("startFrequency", 0.2 + dist (e2) * 0.3);
-            setParam("slide", 0.1 + dist (e2) * 0.4);
-            setParam("repeatSpeed", 0.4 + dist (e2) * 0.4);
+            setParam("startFrequency", 0.2 + uniformRandom() * 0.3);
+            setParam("slide", 0.1 + uniformRandom() * 0.4);
+            setParam("repeatSpeed", 0.4 + uniformRandom() * 0.4);
         }
         else
         {
-            setParam("startFrequency", 0.2 + dist (e2) * 0.3);
-            setParam("slide", 0.05 + dist (e2) * 0.2);
+            setParam("startFrequency", 0.2 + uniformRandom() * 0.3);
+            setParam("slide", 0.05 + uniformRandom() * 0.2);
             
-            if(dist (e2) < 0.5)
+            if (uniformRandom() < 0.5)
             {
-                setParam("vibratoDepth", dist (e2) * 0.7);
-                setParam("vibratoSpeed", dist (e2) * 0.6);
+                setParam("vibratoDepth", uniformRandom() * 0.7);
+                setParam("vibratoSpeed", uniformRandom() * 0.6);
             }
         }
         
-        setParam("sustainTime", dist (e2) * 0.4);
-        setParam("decayTime", 0.1 + dist (e2) * 0.4);
+        setParam("sustainTime", uniformRandom() * 0.4);
+        setParam("decayTime", 0.1 + uniformRandom() * 0.4);
     }
     
     /**
@@ -395,19 +402,20 @@ public:
     {
         resetParams();
         
-        setParam("waveType", uint(dist (e2) * 3));
-        if(int(getParam("waveType")) == 2)
+        setParam("waveType", uint(uniformRandom() * 3));
+        if (int(getParam("waveType")) == 2)
             setParam("waveType", 3);
-        else if(int(getParam("waveType")) == 0)
-            setParam("squareDuty", dist (e2) * 0.6);
+        else if (int(getParam("waveType")) == 0)
+            setParam("squareDuty", uniformRandom() * 0.6);
         
-        setParam("startFrequency", 0.2 + dist (e2) * 0.6);
-        setParam("slide", -0.3 - dist (e2) * 0.4);
+        setParam("startFrequency", 0.2 + uniformRandom() * 0.6);
+        setParam("slide", -0.3 - uniformRandom() * 0.4);
         
-        setParam("sustainTime", dist (e2) * 0.1);
-        setParam("decayTime", 0.1 + dist (e2) * 0.2);
+        setParam("sustainTime", uniformRandom() * 0.1);
+        setParam("decayTime", 0.1 + uniformRandom() * 0.2);
         
-        if(dist (e2) < 0.5) setParam("hpFilterCutoff", dist (e2) * 0.3);
+        if (uniformRandom() < 0.5)
+            setParam("hpFilterCutoff", uniformRandom() * 0.3);
     }
     
     /**
@@ -418,15 +426,15 @@ public:
         resetParams();
         
         setParam("waveType", 0);
-        setParam("squareDuty", dist (e2) * 0.6);
-        setParam("startFrequency", 0.3 + dist (e2) * 0.3);
-        setParam("slide", 0.1 + dist (e2) * 0.2);
+        setParam("squareDuty", uniformRandom() * 0.6);
+        setParam("startFrequency", 0.3 + uniformRandom() * 0.3);
+        setParam("slide", 0.1 + uniformRandom() * 0.2);
         
-        setParam("sustainTime", 0.1 + dist (e2) * 0.3);
-        setParam("decayTime", 0.1 + dist (e2) * 0.2);
+        setParam("sustainTime", 0.1 + uniformRandom() * 0.3);
+        setParam("decayTime", 0.1 + uniformRandom() * 0.2);
         
-        if(dist (e2) < 0.5) setParam("hpFilterCutoff", dist (e2) * 0.3);
-        if(dist (e2) < 0.5) setParam("lpFilterCutoff", 1.0 - dist (e2) * 0.6);
+        if (uniformRandom() < 0.5) setParam("hpFilterCutoff", uniformRandom() * 0.3);
+        if (uniformRandom() < 0.5) setParam("lpFilterCutoff", 1.0 - uniformRandom() * 0.6);
     }
     
     /**
@@ -436,14 +444,14 @@ public:
     {
         resetParams();
         
-        setParam("waveType", uint(dist (e2) * 2));
-        if(int(getParam("waveType")) == 0)
-            setParam("squareDuty", dist (e2) * 0.6);
+        setParam("waveType", uint(uniformRandom() * 2));
+        if (int(getParam("waveType")) == 0)
+            setParam("squareDuty", uniformRandom() * 0.6);
         
-        setParam("startFrequency", 0.2 + dist (e2) * 0.4);
+        setParam("startFrequency", 0.2 + uniformRandom() * 0.4);
         
-        setParam("sustainTime", 0.1 + dist (e2) * 0.1);
-        setParam("decayTime", dist (e2) * 0.2);
+        setParam("sustainTime", 0.1 + uniformRandom() * 0.1);
+        setParam("decayTime", uniformRandom() * 0.2);
         setParam("hpFilterCutoff", 0.1);
     }
     
@@ -470,15 +478,15 @@ public:
     /**
      * Randomly adjusts the parameters ever so slightly
      */
-    void mutate(float mutation = 0.05)
+    void mutate (float mutation = 0.05)
     {
         for (auto& p : params)
         {
-            if (!lockedParam(p.uid))
+            if (! lockedParam(p.uid))
             {
-                if (dist (e2)<0.5)
+                if (uniformRandom() < 0.5)
                 {
-                    setParam(p.uid, p.currentValue + dist (e2) * mutation * 2 - mutation);
+                    setParam (p.uid, p.currentValue + uniformRandom() * mutation * 2 - mutation);
                 }
             }
         }
@@ -524,7 +532,6 @@ public:
      */
     void randomize()
     {
-        
         for (auto& p : params)
         {
             if (!lockedParam(p.uid))
@@ -532,7 +539,7 @@ public:
                 auto min = getMin(p.uid);
                 auto max = getMax(p.uid);
                 
-                auto r = dist (e2);
+                auto r = uniformRandom();
                 
                 auto itr = randomizationPower.find(p.uid);
                 if (itr != randomizationPower.end())
@@ -544,13 +551,13 @@ public:
         
         paramsDirty = true;
         
-        if (!lockedParam("waveType"))
+        if (! lockedParam ("waveType"))
         {
             int count = 0;
             for (auto weight : waveTypeWeights)
                 count += weight;
             
-            float r = dist (e2) * count;
+            float r = uniformRandom() * count;
             for (int i = 0; i < waveTypeWeights.size(); i++)
             {
                 r -= waveTypeWeights[i];
@@ -563,51 +570,51 @@ public:
             
         }
         
-        if (!lockedParam("repeatSpeed"))
+        if (! lockedParam("repeatSpeed"))
         {
-            if (dist (e2)<0.5)
+            if (uniformRandom()<0.5)
                 setParam("repeatSpeed",0);
         }
         
-        if (!lockedParam("slide"))
+        if (! lockedParam("slide"))
         {
-            float r = dist (e2)*2-1;
+            float r = uniformRandom()*2-1;
             r = std::pow(r,5);
             setParam ("slide",r);
         }
-        if (!lockedParam("deltaSlide"))
+        if (! lockedParam("deltaSlide"))
         {
-            float r=dist (e2)*2-1;
+            float r=uniformRandom()*2-1;
             r=std::pow(r,3);
             setParam("deltaSlide",r);
         }
         
-        if (!lockedParam("minFrequency"))
+        if (! lockedParam("minFrequency"))
             setParam("minFrequency",0);
         
-        if (!lockedParam("startFrequency"))
-            setParam("startFrequency",  	(dist (e2) < 0.5) ? pow(dist (e2)*2-1, 2) : (pow(dist (e2) * 0.5, 3) + 0.5));
+        if (! lockedParam("startFrequency"))
+            setParam("startFrequency",  	(uniformRandom() < 0.5) ? pow(uniformRandom()*2-1, 2) : (pow(uniformRandom() * 0.5, 3) + 0.5));
         
-        if ((!lockedParam("sustainTime")) && (!lockedParam("decayTime")))
+        if ((! lockedParam("sustainTime")) && (! lockedParam("decayTime")))
         {
-            if(getParam("attackTime") + getParam("sustainTime") + getParam("decayTime") < 0.2)
+            if (getParam("attackTime") + getParam("sustainTime") + getParam("decayTime") < 0.2)
             {
-                setParam("sustainTime", 0.2 + dist (e2) * 0.3);
-                setParam("decayTime", 0.2 + dist (e2) * 0.3);
+                setParam("sustainTime", 0.2 + uniformRandom() * 0.3);
+                setParam("decayTime", 0.2 + uniformRandom() * 0.3);
             }
         }
         
-        if (!lockedParam("slide"))
+        if (! lockedParam("slide"))
         {
-            if((getParam("startFrequency") > 0.7 && getParam("slide") > 0.2) || (getParam("startFrequency") < 0.2 && getParam("slide") < -0.05))
+            if ((getParam("startFrequency") > 0.7 && getParam("slide") > 0.2) || (getParam("startFrequency") < 0.2 && getParam("slide") < -0.05))
             {
                 setParam("slide", -getParam("slide"));
             }
         }
         
-        if (!lockedParam("lpFilterCutoffSweep"))
+        if (! lockedParam("lpFilterCutoffSweep"))
         {
-            if(getParam("lpFilterCutoff") < 0.1 && getParam("lpFilterCutoffSweep") < -0.05)
+            if (getParam("lpFilterCutoff") < 0.1 && getParam("lpFilterCutoffSweep") < -0.05)
             {
                 setParam("lpFilterCutoffSweep", -getParam("lpFilterCutoffSweep"));
             }
@@ -625,14 +632,20 @@ public:
      * @param	value	Input value
      * @return			The value clamped between 0 and 1
      */
-    float clamp1(float value) { return (value > 1.0) ? 1.0 : ((value < 0.0) ? 0.0 : value); }
+    inline float clamp1 (float value)
+    {
+        return (value > 1.0) ? 1.0 : ((value < 0.0) ? 0.0 : value);
+    }
     
     /**
      * Clams a value to betwen -1 and 1
      * @param	value	Input value
      * @return			The value clamped between -1 and 1
      */
-    float clamp2(float value) { return (value > 1.0) ? 1.0 : ((value < -1.0) ? -1.0 : value); }
+    inline float clamp2 (float value)
+    {
+        return (value > 1.0) ? 1.0 : ((value < -1.0) ? -1.0 : value);
+    }
     
     /**
      * Clams a value to betwen a and b
@@ -641,10 +654,8 @@ public:
      * @param	max		max value
      * @return			The value clamped between min and max
      */
-    float clamp(float value, float min, float max) { return (value > max) ? max : ((value < min) ? min : value); }
-    
-private:
-    std::random_device rd;
-    std::mt19937 e2 {rd()};
-    std::uniform_real_distribution<> dist {0, 1};
+    inline float clamp (float value, float min, float max)
+    {
+        return (value > max) ? max : ((value < min) ? min : value);
+    }
 };
