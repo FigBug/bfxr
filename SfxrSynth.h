@@ -546,7 +546,7 @@ public:
              if (_muted)
                  _superSample = 0;
             
-            buffer[start + i] += _superSample / 128.0;
+            buffer[start + i] += _superSample;
         }
         
         return false;

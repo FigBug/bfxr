@@ -139,12 +139,9 @@ public:
     void setParam (std::string param, float value)
     {
         for (auto& p : params)
-        {
             if (p.uid == param)
-            {
                 p.currentValue = clamp (value, getMin (param), getMax (param));
-            }
-        }
+        
         paramsDirty = true;
     }
     
@@ -664,12 +661,12 @@ public:
         {"Flanger Offset","Offsets a second copy of the wave by a small phase, changing the tibre.", 10,"flangerOffset",0,-1,1},
         {"Flanger Sweep","Sweeps the phase up or down.", 10,"flangerSweep",0,-1,1},
         
-        {"Low-pass Filter Cutoff","Frequency at which the low-pass filter starts attenuating higher frequencies.  Named most likely to result in 'Huh why can't I hear anything?' at her high-school grad. ", 11,"lpFilterCutoff",1,0,1},
-        {"Low-pass Filter Cutoff Sweep","Sweeps the low-pass cutoff up or down.", 11,"lpFilterCutoffSweep",0,-1,1},
-        {"Low-pass Filter Resonance","Changes the attenuation rate for the low-pass filter, changing the timbre.", 11,"lpFilterResonance",0,0,1},
+        {"LP Filter Cutoff","Frequency at which the low-pass filter starts attenuating higher frequencies.  Named most likely to result in 'Huh why can't I hear anything?' at her high-school grad. ", 11,"lpFilterCutoff",1,0,1},
+        {"LP Filter Cutoff Sweep","Sweeps the low-pass cutoff up or down.", 11,"lpFilterCutoffSweep",0,-1,1},
+        {"LP Filter Resonance","Changes the attenuation rate for the low-pass filter, changing the timbre.", 11,"lpFilterResonance",0,0,1},
         
-        {"High-pass Filter Cutoff","Frequency at which the high-pass filter starts attenuating lower frequencies.", 12,"hpFilterCutoff",0,0,1},
-        {"High-pass Filter Cutoff Sweep","Sweeps the high-pass cutoff up or down.", 12,"hpFilterCutoffSweep",0,-1,1},
+        {"HP Filter Cutoff","Frequency at which the high-pass filter starts attenuating lower frequencies.", 12,"hpFilterCutoff",0,0,1},
+        {"HP Filter Cutoff Sweep","Sweeps the high-pass cutoff up or down.", 12,"hpFilterCutoffSweep",0,-1,1},
         
         {"Bit Crush","Resamples the audio at a lower frequency.", 14,"bitCrush",0,0,1},
         {"Bit Crush Sweep","Sweeps the Bit Crush filter up or down.", 14,"bitCrushSweep",0,-1,1}
