@@ -92,7 +92,7 @@ public:
     {
         for (auto p : params)
             if (p.uid == param)
-                return p.name;
+                return p.description;
 
         return {};
     }
@@ -170,7 +170,7 @@ public:
         {
             if (itr == lockedParams.end())
             {
-                lockedParams.push_back(param);
+                lockedParams.push_back (param);
                 paramsDirty = true;
             }
         }
