@@ -625,7 +625,7 @@ public:
     
     std::vector<Param> params = {
         // real name, decription, grouping,name, default, min, max,
-        {"Wave Type","Shape of the wave.", 0,"waveType",2,0,WAVETYPECOUNT-0.0001f}, // the 6.999 thing is because this is really an int parameter...
+        {"Wave Type","Shape of the wave.", 0,"waveType",2,0,WAVETYPECOUNT-1.0f}, // the 6.999 thing is because this is really an int parameter...
         
         {"Master Volume","Overall volume of the sound.", 1,"masterVolume",0.5,0,1},
         {"Attack Time","Length of the volume envelope attack.", 1,"attackTime",0,0,1},
