@@ -133,8 +133,8 @@ public:
         else
             _changeLimit2 = int ((1.0f - p.getParam ("changeSpeed2")) * (1.0f - p.getParam ("changeSpeed2")) * 20000 + 32);
         
-        _changeLimit  *= (1.0f - p.getParam ("changeRepeat") + 0.1f) / 1.1f;
-        _changeLimit2 *= (1.0f - p.getParam ("changeRepeat") + 0.1f) / 1.1f;
+        _changeLimit  = int (_changeLimit * ((1.0f - p.getParam ("changeRepeat") + 0.1f) / 1.1f));
+        _changeLimit2 = int (_changeLimit2 * ((1.0f - p.getParam ("changeRepeat") + 0.1f) / 1.1f));
         
         if (totalReset)
         {
