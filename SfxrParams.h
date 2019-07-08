@@ -505,7 +505,7 @@ public:
                 count += weight;
             
             float r = float (uniformRandom()) * count;
-            for (int i = 0; i < waveTypeWeights.size(); i++)
+            for (size_t i = 0; i < waveTypeWeights.size(); i++)
             {
                 r -= waveTypeWeights[i];
                 if (r <= 0)
@@ -526,13 +526,13 @@ public:
         if (! lockedParam ("slide"))
         {
             float r = float (uniformRandom()) * 2 - 1;
-            r = std::pow (r, 5);
+            r = std::pow (r, 5.0f);
             setParam ("slide", r);
         }
         if (! lockedParam ("deltaSlide"))
         {
             float r = float (uniformRandom()) * 2 - 1;
-            r=std::pow (r, 3);
+            r=std::pow (r, 3.0f);
             setParam ("deltaSlide", r);
         }
         
@@ -540,7 +540,7 @@ public:
             setParam ("minFrequency", 0);
         
         if (! lockedParam ("startFrequency"))
-            setParam("startFrequency", (float (uniformRandom()) < 0.5f) ? std::pow (float (uniformRandom()) * 2 - 1, 2) : (std::pow (float (uniformRandom()) * 0.5f, 3) + 0.5f));
+            setParam("startFrequency", (float (uniformRandom()) < 0.5f) ? std::pow (float (uniformRandom()) * 2 - 1, 2.0f) : (std::pow (float (uniformRandom()) * 0.5f, 3.0f) + 0.5f));
         
         if ((! lockedParam("sustainTime")) && (! lockedParam("decayTime")))
         {

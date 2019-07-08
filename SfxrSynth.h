@@ -142,7 +142,7 @@ public:
             
             _masterVolume = p.getParam ("masterVolume") * p.getParam ("masterVolume");
             
-            _waveType = int (p.getParam ("waveType"));
+            _waveType = (unsigned int) (p.getParam ("waveType"));
             
             if (p.getParam ("sustainTime") < 0.01f)
                 p.setParam ("sustainTime", 0.01f);
@@ -213,17 +213,17 @@ public:
             _loResNoiseBuffer.resize (32);
             _pinkNumber = {};
             
-            for (int i = 0; i < 1024; i++)
+            for (size_t i = 0; i < 1024; i++)
                 _flangerBuffer[i] = 0.0;
 
-            for (int i = 0; i < 32; i++)
+            for (size_t i = 0; i < 32; i++)
                 _noiseBuffer[i] = float (uniformRandom()) * 2.0f - 1.0f;
 
-            for (int i = 0; i < 32; i++)
+            for (size_t i = 0; i < 32; i++)
                 _pinkNoiseBuffer[i] = float (_pinkNumber.getNextValue());
 
-            for (int i = 0; i < 32; i++)
-                _loResNoiseBuffer[i] = ((i % LoResNoisePeriod) == 0) ? float (uniformRandom()) * 2.0f - 1.0f : _loResNoiseBuffer[i - 1];
+            for (size_t i = 0; i < 32; i++)
+                _loResNoiseBuffer[i] = ((int (i) % LoResNoisePeriod) == 0) ? float (uniformRandom()) * 2.0f - 1.0f : _loResNoiseBuffer[i - 1];
         
             _repeatTime = 0;
             
@@ -390,18 +390,18 @@ public:
                     // Generates new random noise for this period
                     if (_waveType == 3)
                     {
-                        for (int n = 0; n < 32; n++)
+                        for (size_t n = 0; n < 32; n++)
                             _noiseBuffer[n] = float (uniformRandom()) * 2.0f - 1.0f;
                     }
                     else if (_waveType == 5)
                     {
-                        for (int n = 0; n < 32; n++)
+                        for (size_t n = 0; n < 32; n++)
                             _pinkNoiseBuffer[n] = float (_pinkNumber.getNextValue());
                     }
                     else if (_waveType == 6)
                     {
-                        for (int n = 0; n < 32; n++)
-                            _loResNoiseBuffer[n] = ((n % LoResNoisePeriod) == 0) ? float (uniformRandom()) * 2.0f - 1.0f : _loResNoiseBuffer[n - 1];
+                        for (size_t n = 0; n < 32; n++)
+                            _loResNoiseBuffer[n] = ((int (n) % LoResNoisePeriod) == 0) ? float (uniformRandom()) * 2.0f - 1.0f : _loResNoiseBuffer[n - 1];
                     }
                 }
                 
@@ -565,7 +565,6 @@ private:
     //--------------------------------------------------------------------------
     
     const float MIN_LENGTH = 0.18f;
-    const int version = 104;
     //should be <32
     const int LoResNoisePeriod = 8;
     

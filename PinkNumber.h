@@ -33,13 +33,13 @@ public:
         // a list of bits that have changed.
         int diff = last_key ^ key;
         sum = 0;
-        for (int i = 0; i < 5; i++)
+        for (size_t i = 0; i < 5; i++)
         {
             // If bit changed get new random number for corresponding
             // white_value
             if (diff & (1 << i))
                 white_values[i] = int (uniformRandom() * (range / 5));
-            sum += white_values[i];
+            sum += (unsigned int) white_values[i];
         }
         return sum / 64.0 - 1.0;
     }
