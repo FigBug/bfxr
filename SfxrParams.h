@@ -197,17 +197,17 @@ public:
     {
         resetParams();
         
-        setParam ("startFrequency",0.4+uniformRandom()*0.5);
+        setParam ("startFrequency", 0.4f + float (uniformRandom()) * 0.5f);
         
-        setParam ("sustainTime", uniformRandom() * 0.1);
-        setParam ("decayTime", 0.1 + uniformRandom() * 0.4);
-        setParam ("sustainPunch", 0.3 + uniformRandom() * 0.3);
+        setParam ("sustainTime", float (uniformRandom()) * 0.1f);
+        setParam ("decayTime", 0.1f + float (uniformRandom()) * 0.4f);
+        setParam ("sustainPunch", 0.3f + float (uniformRandom()) * 0.3f);
         
-        if (uniformRandom() < 0.5)
+        if (float (uniformRandom()) < 0.5)
         {
-            setParam ("changeSpeed", 0.5 + uniformRandom() * 0.2);
-            int cnum = int(uniformRandom()*7)+1;
-            int cden = cnum+int(uniformRandom()*7)+2;
+            setParam ("changeSpeed", 0.5f + float (uniformRandom()) * 0.2f);
+            int cnum = int (float (uniformRandom()) * 7) + 1;
+            int cden = cnum + int (float (uniformRandom()) * 7) + 2;
             
             setParam ("changeAmount", float(cnum)/float(cden));
         }
@@ -220,48 +220,48 @@ public:
     {
         resetParams();
         
-        setParam ("waveType", int (uniformRandom() * 3));
-        if (int (getParam ("waveType")) == 2 && uniformRandom() < 0.5)
-            setParam ("waveType", int (uniformRandom() * 2));
+        setParam ("waveType", float (int (uniformRandom() * 3)));
+        if (int (getParam ("waveType")) == 2 && float (uniformRandom()) < 0.5)
+            setParam ("waveType", float (int (uniformRandom() * 2)));
         
-        setParam ("startFrequency", 0.5 + uniformRandom() * 0.5);
-        setParam ("minFrequency", getParam ("startFrequency") - 0.2 - uniformRandom() * 0.6);
+        setParam ("startFrequency", 0.5f + float (uniformRandom()) * 0.5f);
+        setParam ("minFrequency", getParam ("startFrequency") - 0.2f - float (uniformRandom()) * 0.6f);
         
-        if (getParam ("minFrequency") < 0.2)
-            setParam ("minFrequency", 0.2);
+        if (getParam ("minFrequency") < 0.2f)
+            setParam ("minFrequency", 0.2f);
         
-        setParam ("slide", -0.15 - uniformRandom() * 0.2);
+        setParam ("slide", -0.15f - float (uniformRandom()) * 0.2f);
          
-        if (uniformRandom() < 0.33)
+        if (float (uniformRandom()) < 0.33f)
         {
-            setParam ("startFrequency", uniformRandom() * 0.6);
-            setParam ("minFrequency", uniformRandom() * 0.1);
-            setParam ("slide", -0.35 - uniformRandom() * 0.3);
+            setParam ("startFrequency", float (uniformRandom()) * 0.6f);
+            setParam ("minFrequency", float (uniformRandom()) * 0.1f);
+            setParam ("slide", -0.35f - float (uniformRandom()) * 0.3f);
         }
         
-        if (uniformRandom() < 0.5)
+        if (float (uniformRandom()) < 0.5f)
         {
-            setParam ("squareDuty", uniformRandom() * 0.5);
-            setParam ("dutySweep", uniformRandom() * 0.2);
+            setParam ("squareDuty", float (uniformRandom()) * 0.5f);
+            setParam ("dutySweep", float (uniformRandom()) * 0.2f);
         }
         else
         {
-            setParam ("squareDuty", 0.4 + uniformRandom() * 0.5);
-            setParam ("dutySweep",- uniformRandom() * 0.7);
+            setParam ("squareDuty", 0.4f + float (uniformRandom()) * 0.5f);
+            setParam ("dutySweep", -float (uniformRandom()) * 0.7f);
         }
         
-        setParam ("sustainTime", 0.1 + uniformRandom() * 0.2);
-        setParam ("decayTime", uniformRandom() * 0.4);
-        if (uniformRandom() < 0.5) setParam ("sustainPunch", uniformRandom() * 0.3);
+        setParam ("sustainTime", 0.1f + float (uniformRandom()) * 0.2f);
+        setParam ("decayTime", float (uniformRandom()) * 0.4f);
+        if (float (uniformRandom()) < 0.5f) setParam ("sustainPunch", float (uniformRandom()) * 0.3f);
         
-        if (uniformRandom() < 0.33)
+        if (float (uniformRandom()) < 0.33f)
         {
-            setParam ("flangerOffset", uniformRandom() * 0.2);
-            setParam ("flangerSweep", -uniformRandom() * 0.2);
+            setParam ("flangerOffset", float (uniformRandom()) * 0.2f);
+            setParam ("flangerSweep", -float (uniformRandom()) * 0.2f);
         }
         
-        if (uniformRandom() < 0.5)
-            setParam ("hpFilterCutoff", uniformRandom() * 0.3);
+        if (float (uniformRandom()) < 0.5)
+            setParam ("hpFilterCutoff", float (uniformRandom()) * 0.3f);
     }
     
     /**
@@ -272,39 +272,39 @@ public:
         resetParams();
         setParam ("waveType", 3);
         
-        if (uniformRandom() < 0.5)
+        if (float (uniformRandom()) < 0.5f)
         {
-            setParam ("startFrequency", 0.1 + uniformRandom() * 0.4);
-            setParam ("slide", -0.1 + uniformRandom() * 0.4);
+            setParam ("startFrequency", 0.1f + float (uniformRandom()) * 0.4f);
+            setParam ("slide", -0.1f + float (uniformRandom()) * 0.4f);
         }
         else
         {
-            setParam ("startFrequency", 0.2 + uniformRandom() * 0.7);
-            setParam ("slide", -0.2 - uniformRandom() * 0.2);
+            setParam ("startFrequency", 0.2f + float (uniformRandom()) * 0.7f);
+            setParam ("slide", -0.2f - float (uniformRandom()) * 0.2f);
         }
         
         setParam ("startFrequency", getParam ("startFrequency") * getParam ("startFrequency"));
         
-        if (uniformRandom() < 0.2)
-            setParam ("slide", 0.0);
+        if (float (uniformRandom()) < 0.2f)
+            setParam ("slide", 0.0f);
         
-        if (uniformRandom() < 0.33)
-            setParam ("repeatSpeed", 0.3 + uniformRandom() * 0.5);
+        if (float (uniformRandom()) < 0.33f)
+            setParam ("repeatSpeed", 0.3f + float (uniformRandom()) * 0.5f);
         
-        setParam ("sustainTime", 0.1 + uniformRandom() * 0.3);
-        setParam ("decayTime", uniformRandom() * 0.5);
-        setParam ("sustainPunch", 0.2 + uniformRandom() * 0.6);
+        setParam ("sustainTime", 0.1f + float (uniformRandom()) * 0.3f);
+        setParam ("decayTime", float (uniformRandom()) * 0.5f);
+        setParam ("sustainPunch", 0.2f + float (uniformRandom()) * 0.6f);
         
-        if (uniformRandom() < 0.5)
+        if (float (uniformRandom()) < 0.5f)
         {
-            setParam ("flangerOffset", -0.3 + uniformRandom() * 0.9);
-            setParam ("flangerSweep", -uniformRandom() * 0.3);
+            setParam ("flangerOffset", -0.3f + float (uniformRandom()) * 0.9f);
+            setParam ("flangerSweep", -float (uniformRandom()) * 0.3f);
         }
         
-        if (uniformRandom() < 0.33)
+        if (float (uniformRandom()) < 0.33f)
         {
-            setParam ("changeSpeed", 0.6 + uniformRandom() * 0.3);
-            setParam ("changeAmount", 0.8 - uniformRandom() * 1.6);
+            setParam ("changeSpeed", 0.6f + float (uniformRandom()) * 0.3f);
+            setParam ("changeAmount", 0.8f - float (uniformRandom()) * 1.6f);
         }
     }
     
@@ -315,31 +315,31 @@ public:
     {
         resetParams();
         
-        if (uniformRandom() < 0.5)
+        if (float (uniformRandom()) < 0.5f)
             setParam ("waveType", 1);
         else
-            setParam ("squareDuty", uniformRandom() * 0.6);
+            setParam ("squareDuty", float (uniformRandom()) * 0.6f);
         
-        if (uniformRandom() < 0.5)
+        if (float (uniformRandom()) < 0.5f)
         {
-            setParam ("startFrequency", 0.2 + uniformRandom() * 0.3);
-            setParam ("slide", 0.1 + uniformRandom() * 0.4);
-            setParam ("repeatSpeed", 0.4 + uniformRandom() * 0.4);
+            setParam ("startFrequency", 0.2f + float (uniformRandom()) * 0.3f);
+            setParam ("slide", 0.1f + float (uniformRandom()) * 0.4f);
+            setParam ("repeatSpeed", 0.4f + float (uniformRandom()) * 0.4f);
         }
         else
         {
-            setParam ("startFrequency", 0.2 + uniformRandom() * 0.3);
-            setParam ("slide", 0.05 + uniformRandom() * 0.2);
+            setParam ("startFrequency", 0.2f + float (uniformRandom()) * 0.3f);
+            setParam ("slide", 0.05f + float (uniformRandom()) * 0.2f);
             
-            if (uniformRandom() < 0.5)
+            if (float (uniformRandom()) < 0.5f)
             {
-                setParam ("vibratoDepth", uniformRandom() * 0.7);
-                setParam ("vibratoSpeed", uniformRandom() * 0.6);
+                setParam ("vibratoDepth", float (uniformRandom()) * 0.7f);
+                setParam ("vibratoSpeed", float (uniformRandom()) * 0.6f);
             }
         }
         
-        setParam ("sustainTime", uniformRandom() * 0.4);
-        setParam ("decayTime", 0.1 + uniformRandom() * 0.4);
+        setParam ("sustainTime", float (uniformRandom()) * 0.4f);
+        setParam ("decayTime", 0.1f + float (uniformRandom()) * 0.4f);
     }
     
     /**
@@ -349,20 +349,20 @@ public:
     {
         resetParams();
         
-        setParam ("waveType", int (uniformRandom() * 3));
+        setParam ("waveType", float (int (uniformRandom() * 3)));
         if (int (getParam ("waveType")) == 2)
             setParam ("waveType", 3);
         else if (int (getParam ("waveType")) == 0)
-            setParam ("squareDuty", uniformRandom() * 0.6);
+            setParam ("squareDuty", float (uniformRandom()) * 0.6f);
         
-        setParam ("startFrequency", 0.2 + uniformRandom() * 0.6);
-        setParam ("slide", -0.3 - uniformRandom() * 0.4);
+        setParam ("startFrequency", 0.2f + float (uniformRandom()) * 0.6f);
+        setParam ("slide", -0.3f - float (uniformRandom()) * 0.4f);
         
-        setParam ("sustainTime", uniformRandom() * 0.1);
-        setParam ("decayTime", 0.1 + uniformRandom() * 0.2);
+        setParam ("sustainTime", float (uniformRandom()) * 0.1f);
+        setParam ("decayTime", 0.1f + float (uniformRandom()) * 0.2f);
         
-        if (uniformRandom() < 0.5)
-            setParam ("hpFilterCutoff", uniformRandom() * 0.3);
+        if (float (uniformRandom()) < 0.5f)
+            setParam ("hpFilterCutoff", float (uniformRandom()) * 0.3f);
     }
     
     /**
@@ -373,15 +373,15 @@ public:
         resetParams();
         
         setParam ("waveType", 0);
-        setParam ("squareDuty", uniformRandom() * 0.6);
-        setParam ("startFrequency", 0.3 + uniformRandom() * 0.3);
-        setParam ("slide", 0.1 + uniformRandom() * 0.2);
+        setParam ("squareDuty", float (uniformRandom()) * 0.6f);
+        setParam ("startFrequency", 0.3f + float (uniformRandom()) * 0.3f);
+        setParam ("slide", 0.1f + float (uniformRandom()) * 0.2f);
         
-        setParam ("sustainTime", 0.1 + uniformRandom() * 0.3);
-        setParam ("decayTime", 0.1 + uniformRandom() * 0.2);
+        setParam ("sustainTime", 0.1f + float (uniformRandom()) * 0.3f);
+        setParam ("decayTime", 0.1f + float (uniformRandom()) * 0.2f);
         
-        if (uniformRandom() < 0.5) setParam ("hpFilterCutoff", uniformRandom() * 0.3);
-        if (uniformRandom() < 0.5) setParam ("lpFilterCutoff", 1.0 - uniformRandom() * 0.6);
+        if (float (uniformRandom()) < 0.5f) setParam ("hpFilterCutoff", float (uniformRandom()) * 0.3f);
+        if (float (uniformRandom()) < 0.5f) setParam ("lpFilterCutoff", 1.0f - float (uniformRandom()) * 0.6f);
     }
     
     /**
@@ -391,15 +391,15 @@ public:
     {
         resetParams();
         
-        setParam ("waveType", int (uniformRandom() * 2));
+        setParam ("waveType", float (int (uniformRandom() * 2)));
         if (int (getParam ("waveType")) == 0)
-            setParam ("squareDuty", uniformRandom() * 0.6);
+            setParam ("squareDuty", float (uniformRandom()) * 0.6f);
         
-        setParam ("startFrequency", 0.2 + uniformRandom() * 0.4);
+        setParam ("startFrequency", 0.2f + float (uniformRandom()) * 0.4f);
         
-        setParam ("sustainTime", 0.1 + uniformRandom() * 0.1);
-        setParam ("decayTime", uniformRandom() * 0.2);
-        setParam ("hpFilterCutoff", 0.1);
+        setParam ("sustainTime", 0.1f + float (uniformRandom()) * 0.1f);
+        setParam ("decayTime", float (uniformRandom()) * 0.2f);
+        setParam ("hpFilterCutoff", 0.1f);
     }
     
     /**
@@ -425,15 +425,15 @@ public:
     /**
      * Randomly adjusts the parameters ever so slightly
      */
-    void mutate (float mutation = 0.05)
+    void mutate (float mutation = 0.05f)
     {
         for (auto& p : params)
         {
             if (! lockedParam(p.uid))
             {
-                if (uniformRandom() < 0.5)
+                if (float (uniformRandom()) < 0.5f)
                 {
-                    setParam (p.uid, p.currentValue + uniformRandom() * mutation * 2 - mutation);
+                    setParam (p.uid, p.currentValue + float (uniformRandom()) * mutation * 2 - mutation);
                 }
             }
         }
@@ -443,21 +443,21 @@ public:
     
     std::map<std::string, float> randomizationPower
     {
-        { "attackTime", 4},
-        { "sustainTime", 2},
-        { "sustainPunch", 2},
-        { "overtones", 3},
-        { "overtoneFalloff", 0.25},
-        { "vibratoDepth", 3},
-        { "dutySweep", 3},
-        { "flangerOffset", 3},
-        { "flangerSweep", 3},
-        { "lpFilterCutoff", 0.3},
-        { "lpFilterSweep", 3},
-        { "hpFilterCutoff", 5},
-        { "hpFilterSweep", 5},
-        { "bitCrush", 4},
-        { "bitCrushSweep", 5},
+        { "attackTime", 4.0f},
+        { "sustainTime", 2.0f},
+        { "sustainPunch", 2.0f},
+        { "overtones", 3.0f},
+        { "overtoneFalloff", 0.25f},
+        { "vibratoDepth", 3.0f},
+        { "dutySweep", 3.0f},
+        { "flangerOffset", 3.0f},
+        { "flangerSweep", 3.0f},
+        { "lpFilterCutoff", 0.3f},
+        { "lpFilterSweep", 3.0f},
+        { "hpFilterCutoff", 5.0f},
+        { "hpFilterSweep", 5.0f},
+        { "bitCrush", 4.0f},
+        { "bitCrushSweep", 5.0f},
     };
     
     std::vector<int> waveTypeWeights =
@@ -486,7 +486,7 @@ public:
                 auto min = getMin (p.uid);
                 auto max = getMax (p.uid);
                 
-                auto r = uniformRandom();
+                auto r = float (uniformRandom());
                 
                 auto itr = randomizationPower.find (p.uid);
                 if (itr != randomizationPower.end())
@@ -504,13 +504,13 @@ public:
             for (auto weight : waveTypeWeights)
                 count += weight;
             
-            float r = uniformRandom() * count;
+            float r = float (uniformRandom()) * count;
             for (int i = 0; i < waveTypeWeights.size(); i++)
             {
                 r -= waveTypeWeights[i];
                 if (r <= 0)
                 {
-                    setParam("waveType",i);
+                    setParam ("waveType", float (i));
                     break;
                 }
             }
@@ -519,19 +519,19 @@ public:
         
         if (! lockedParam ("repeatSpeed"))
         {
-            if (uniformRandom() < 0.5)
-                setParam ("repeatSpeed",0);
+            if (float (uniformRandom()) < 0.5f)
+                setParam ("repeatSpeed", 0.0f);
         }
         
         if (! lockedParam ("slide"))
         {
-            float r = uniformRandom() * 2 - 1;
+            float r = float (uniformRandom()) * 2 - 1;
             r = std::pow (r, 5);
             setParam ("slide", r);
         }
         if (! lockedParam ("deltaSlide"))
         {
-            float r=uniformRandom() * 2 - 1;
+            float r = float (uniformRandom()) * 2 - 1;
             r=std::pow (r, 3);
             setParam ("deltaSlide", r);
         }
@@ -540,20 +540,20 @@ public:
             setParam ("minFrequency", 0);
         
         if (! lockedParam ("startFrequency"))
-            setParam("startFrequency", (uniformRandom() < 0.5) ? std::pow (uniformRandom() * 2 - 1, 2) : (std::pow (uniformRandom() * 0.5, 3) + 0.5));
+            setParam("startFrequency", (float (uniformRandom()) < 0.5f) ? std::pow (float (uniformRandom()) * 2 - 1, 2) : (std::pow (float (uniformRandom()) * 0.5f, 3) + 0.5f));
         
         if ((! lockedParam("sustainTime")) && (! lockedParam("decayTime")))
         {
-            if (getParam ("attackTime") + getParam ("sustainTime") + getParam ("decayTime") < 0.2)
+            if (getParam ("attackTime") + getParam ("sustainTime") + getParam ("decayTime") < 0.2f)
             {
-                setParam ("sustainTime", 0.2 + uniformRandom() * 0.3);
-                setParam ("decayTime", 0.2 + uniformRandom() * 0.3);
+                setParam ("sustainTime", 0.2f + float (uniformRandom()) * 0.3f);
+                setParam ("decayTime", 0.2f + float (uniformRandom()) * 0.3f);
             }
         }
         
         if (! lockedParam ("slide"))
         {
-            if ((getParam ("startFrequency") > 0.7 && getParam ("slide") > 0.2) || (getParam ("startFrequency") < 0.2 && getParam ("slide") < -0.05))
+            if ((getParam ("startFrequency") > 0.7 && getParam ("slide") > 0.2f) || (getParam ("startFrequency") < 0.2f && getParam ("slide") < -0.05))
             {
                 setParam ("slide", -getParam("slide"));
             }
@@ -561,7 +561,7 @@ public:
         
         if (! lockedParam ("lpFilterCutoffSweep"))
         {
-            if (getParam ("lpFilterCutoff") < 0.1 && getParam ("lpFilterCutoffSweep") < -0.05)
+            if (getParam ("lpFilterCutoff") < 0.1f && getParam ("lpFilterCutoffSweep") < -0.05)
             {
                 setParam ("lpFilterCutoffSweep", -getParam ("lpFilterCutoffSweep"));
             }
@@ -581,7 +581,7 @@ public:
      */
     inline float clamp1 (float value)
     {
-        return (value > 1.0) ? 1.0 : ((value < 0.0) ? 0.0 : value);
+        return (value > 1.0f) ? 1.0f : ((value < 0.0f) ? 0.0f : value);
     }
     
     /**
@@ -591,7 +591,7 @@ public:
      */
     inline float clamp2 (float value)
     {
-        return (value > 1.0) ? 1.0 : ((value < -1.0) ? -1.0 : value);
+        return (value > 1.0f) ? 1.0f : ((value < -1.0f) ? -1.0f : value);
     }
     
     /**
@@ -627,19 +627,19 @@ public:
         // real name, decription, grouping,name, default, min, max,
         {"Wave Type","Shape of the wave.", 0,"waveType",2,0,WAVETYPECOUNT-1.0f}, // the 6.999 thing is because this is really an int parameter...
         
-        {"Master Volume","Overall volume of the sound.", 1,"masterVolume",0.5,0,1},
+        {"Master Volume","Overall volume of the sound.", 1,"masterVolume",0.5f,0,1},
         {"Attack Time","Length of the volume envelope attack.", 1,"attackTime",0,0,1},
-        {"Sustain Time","Length of the volume envelope sustain.", 1,"sustainTime",0.3,0,1},
+        {"Sustain Time","Length of the volume envelope sustain.", 1,"sustainTime",0.3f,0,1},
         {"Punch","Tilts the sustain envelope for more 'pop'.", 1,"sustainPunch",0,0,1},
-        {"Decay Time","Length of the volume envelope decay (yes, I know it's called release).", 1,"decayTime",0.4,0,1},
+        {"Decay Time","Length of the volume envelope decay (yes, I know it's called release).", 1,"decayTime",0.4f,0,1},
         
-        {"Compression","Pushes amplitudes together into a narrower range to make them stand out more.  Very good for sound effects, where you want them to stick out against background music.",15,"compressionAmount",0.3,0,1},
+        {"Compression","Pushes amplitudes together into a narrower range to make them stand out more.  Very good for sound effects, where you want them to stick out against background music.",15,"compressionAmount",0.3f,0,1},
         
-        {"Frequency","Base note of the sound.", 2,"startFrequency",0.3,0,1},
-        {"Frequency Cutoff","If sliding, the sound will stop at this frequency, to prevent really low notes.  If unlocked, this is set to zero during randomization.", 2,"minFrequency",0.0,0,1},
+        {"Frequency","Base note of the sound.", 2,"startFrequency",0.3f,0,1},
+        {"Frequency Cutoff","If sliding, the sound will stop at this frequency, to prevent really low notes.  If unlocked, this is set to zero during randomization.", 2,"minFrequency",0.0f,0,1},
         
-        {"Frequency Slide","Slides the frequency up or down.", 3, "slide",0.0,-1,1},
-        {"Delta Slide","Accelerates the frequency slide.  Can be used to get the frequency to change direction.", 3,"deltaSlide",0.0,-1,1},
+        {"Frequency Slide","Slides the frequency up or down.", 3, "slide",0.0f,-1,1},
+        {"Delta Slide","Accelerates the frequency slide.  Can be used to get the frequency to change direction.", 3,"deltaSlide",0.0f,-1,1},
         
         {"Vibrato Depth","Strength of the vibrato effect.", 4,"vibratoDepth",0,0,1},
         {"Vibrato Speed","Speed of the vibrato effect (i.e. frequency).", 4,"vibratoSpeed",0,0,1},
