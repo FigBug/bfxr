@@ -20,6 +20,7 @@
 #pragma once
 
 #include <map>
+#include <algorithm>
 
 #include "Util.h"
 
