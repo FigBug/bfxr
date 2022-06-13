@@ -443,7 +443,7 @@ public:
                         }
                         case 5: // Pink Noise
                         {
-                            _sample += overtonestrength * (_pinkNoiseBuffer [int (tempphase * 32 / int (_periodTemp)) % 32]);
+                            _sample += overtonestrength * (_pinkNoiseBuffer [size_t (tempphase * 32 / int (_periodTemp)) % 32]);
                             break;
                         }
                         case 6: // tan
